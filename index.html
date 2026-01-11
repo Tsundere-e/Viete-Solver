@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VieteSolver 🎀✨</title>
+    <title>VieteSolver ⚔️💧</title>
+    <!-- Hydro/Whale Symbol Favicon (SVG) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path d=%22M50 10 C 20 50, 80 50, 50 90 C 20 50, 80 50, 50 10%22 fill=%22%233b82f6%22/></svg>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
@@ -11,19 +14,31 @@
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fira+Code&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Fredoka:wght@400;600&family=Fira+Code&display=swap');
         
         :root {
-            --pink-main: #ff85a2;
-            --purple-main: #b794f4;
+            /* Tartaglia/Childe Palette */
+            --blue-light: #93c5fd;  /* Hydro Light */
+            --blue-main: #3b82f6;   /* Hydro Main */
+            --blue-deep: #1e3a8a;   /* Abyss/Deep Blue */
+            --red-accent: #f43f5e;  /* Childe's Mask/Scarf */
+            --grey-accent: #e5e7eb; /* Silver/Fatui Grey */
+            --text-main: #1e293b;
         }
 
         body { 
-            font-family: 'Quicksand', sans-serif; 
-            background: #fff;
+            font-family: 'Fredoka', 'Quicksand', sans-serif; 
+            /* Deep Blue Grid Background */
+            background-color: #f0f9ff;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.15) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.15) 2px, transparent 2px);
+            background-size: 40px 40px;
             min-height: 100vh;
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill:pink"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'), auto;
+            color: var(--text-main);
+            /* Custom cursor - Blue Sword/Arrow style */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill:%233b82f6; stroke:white; stroke-width:1"><path d="M14.5 2l-2.5 5 2.5 5 2.5-5z M2 22l6-6"/></svg>'), auto;
         }
 
         #glitter-canvas {
@@ -36,192 +51,264 @@
             z-index: 0;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 50px -15px rgba(255, 133, 162, 0.4);
-            border-radius: 3rem;
+        /* Card Style - Crisp & "Tech" feel for Snezhnaya tech vibe */
+        .kawaii-card {
+            background: #ffffff;
+            border: 4px solid var(--blue-main);
+            border-radius: 1.5rem;
             position: relative;
             z-index: 10;
+            box-shadow: 8px 8px 0px 0px var(--blue-light);
+            transition: transform 0.2s;
+        }
+
+        .kawaii-card::after {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 2px dashed var(--blue-light);
+            border-radius: 1.2rem;
+            pointer-events: none;
         }
 
         .sticker-img {
             width: 100%;
             height: 130px;
             object-fit: cover;
-            border-radius: 1.8rem;
-            border: 4px solid white;
-            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 0.8rem;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: rotate(-1deg);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .sticker-img:hover {
-            transform: scale(1.15) rotate(-5deg);
-            box-shadow: 0 12px 30px rgba(255, 133, 162, 0.6);
+            transform: scale(1.05) rotate(1deg);
+            z-index: 20;
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+            border-color: var(--blue-main);
         }
 
-        .shimmer-text {
-            background: linear-gradient(90deg, #ff85a2, #b794f4, #ff85a2);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            animation: shimmer 3s linear infinite;
+        /* "Impact" Title Typography */
+        .impact-title {
+            font-family: 'Fredoka', sans-serif;
+            color: white;
+            -webkit-text-stroke: 6px var(--blue-main);
+            paint-order: stroke fill;
+            text-shadow: 
+                6px 6px 0px var(--blue-deep),
+                -2px -2px 0px white;
+            position: relative;
+            display: inline-block;
+            z-index: 10;
+        }
+        
+        .impact-decoration {
+            position: absolute;
+            z-index: -1;
+            color: var(--blue-light);
+            filter: drop-shadow(2px 2px 0px var(--blue-deep));
         }
 
-        @keyframes shimmer {
-            to { background-position: 200% center; }
+        .latex-container h1, .latex-container h2 { 
+            color: var(--blue-deep); 
+            font-weight: 900; 
+            margin-top: 1.5rem; 
+            margin-bottom: 1rem;
+            background: var(--blue-light);
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 0.8rem;
+            transform: rotate(-1deg);
+            border: 2px solid var(--blue-deep);
+            color: white;
+            text-shadow: 1px 1px 0 var(--blue-deep);
         }
-
-        .floating {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .latex-container h1, .latex-container h2 { color: #db2777; font-weight: 900; margin-top: 1.5rem; margin-bottom: 1rem; }
+        
         .latex-container p { margin-bottom: 1rem; line-height: 1.8; font-size: 1.1rem; }
-        .latex-container li { margin-bottom: 0.8rem; padding-left: 1.5rem; border-left: 3px solid #ff85a2; font-style: italic; }
+        .latex-container li { margin-bottom: 0.8rem; padding-left: 1.5rem; border-left: 4px solid var(--blue-main); }
 
-        .loader-pink {
-            border: 4px solid rgba(255, 133, 162, 0.2);
-            border-top: 4px solid #ff85a2;
+        .loader-blue {
+            border: 4px solid var(--blue-light);
+            border-top: 4px solid var(--blue-main);
             border-radius: 50%;
             width: 24px;
             height: 24px;
-            animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        #step-console p {
-            animation: slideIn 0.3s ease-out forwards;
+        /* Dashed dropzone */
+        .dashed-border {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%233B82F6' stroke-width='3' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); filter: blur(5px); }
-            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        .shiny-btn {
+            background: linear-gradient(135deg, var(--blue-main), var(--blue-deep));
+            border: 2px solid white;
+            box-shadow: 0 4px 0 0 var(--blue-deep);
+            color: white;
+        }
+        .shiny-btn:active {
+            transform: translateY(4px);
+            box-shadow: none;
         }
     </style>
 </head>
 <body class="p-4 md:p-8">
     <canvas id="glitter-canvas"></canvas>
 
-    <div class="max-w-6xl mx-auto space-y-10 relative">
-        <header class="text-center space-y-4 pt-4">
-            <div class="flex items-center justify-center gap-4 floating">
-                <i data-lucide="sparkle" class="text-pink-400 w-8 h-8"></i>
-                <h1 class="text-6xl font-black shimmer-text italic tracking-tighter">
-                    VieteSolver
-                </h1>
-                <i data-lucide="sparkle" class="text-pink-400 w-8 h-8"></i>
+    <!-- Main Container -->
+    <div class="max-w-5xl mx-auto space-y-8 relative z-10">
+        
+        <!-- Header Banner Section -->
+        <header class="text-center relative bg-white rounded-[2rem] p-3 shadow-[8px_8px_0px_0px_rgba(30,58,138,0.2)] border-4 border-white">
+            <!-- Header Image -->
+            <div class="w-full h-56 md:h-72 rounded-[1.5rem] overflow-hidden mb-0 border-4 border-blue-100 relative group">
+                <img src="https://i.pinimg.com/1200x/c6/a0/63/c6a063e328ff7ecb955c517e9acb1b97.jpg" 
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                     alt="Header Banner">
+                
+                <!-- Title Overlay - Less Blur, High Impact -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <div class="relative group">
+                        <!-- Left Wing/Deco -->
+                        <div class="absolute -left-12 top-1/2 -translate-y-1/2 hidden md:block">
+                            <i data-lucide="swords" class="w-12 h-12 text-white fill-blue-500 stroke-[3]" style="filter: drop-shadow(3px 3px 0 #1e3a8a);"></i>
+                        </div>
+                        
+                        <!-- Main Title -->
+                        <h1 class="text-6xl md:text-7xl font-black tracking-tighter impact-title italic">
+                            VieteSolver
+                        </h1>
+
+                        <!-- Right Wing/Deco -->
+                        <div class="absolute -right-12 top-1/2 -translate-y-1/2 hidden md:block">
+                            <i data-lucide="sparkles" class="w-12 h-12 text-yellow-300 fill-white stroke-[3]" style="filter: drop-shadow(3px 3px 0 #ca8a04);"></i>
+                        </div>
+                        
+                        <!-- Subtitle Badge -->
+                        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-full min-w-[280px]">
+                            <p class="bg-blue-600 text-white font-bold py-1 px-4 rounded-lg text-xs uppercase tracking-[0.3em] shadow-[4px_4px_0_0_#1e3a8a] border-2 border-white transform rotate-1">
+                                ✦ The 11th Harbinger ✦
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="text-pink-400 font-black tracking-[0.5em] text-[10px] uppercase bg-white/50 backdrop-blur-md py-2 px-4 rounded-full inline-block border border-white">
-                Brains, Beauty & Big Equations ✩°｡⋆⸜ ✈
-            </p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Stickers Card -->
-            <div class="glass-card p-10 flex flex-col justify-center space-y-6">
-                <div class="grid grid-cols-2 gap-6">
-                    <img src="https://i.pinimg.com/originals/6d/b6/73/6db6738cc7e1bf2ea139d97804294617.jpg" class="sticker-img" alt="Cute Sticker">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLC5de4nPNJsVWQo3MQyxKJmiH6zFIQzjImQ&s" class="sticker-img" alt="Anime Vibe">
-                    <img src="https://upload-os-bbs.hoyolab.com/upload/2023/09/02/360374682/20ade5ea9ce2f8a0453587348d3541d4_2153532981055111591.jpg?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" class="sticker-img" alt="Kaomoji sticker">
-                    <div class="bg-gradient-to-br from-pink-100 to-purple-100 rounded-[2rem] flex items-center justify-center border-4 border-white shadow-xl sticker-img">
-                        <span class="text-pink-400 font-bold text-center leading-tight p-2 text-sm italic">
-                            (｡•̀ᴗ-)✧ <br> IQ > EGO
+            <div class="kawaii-card p-8 flex flex-col justify-center space-y-6">
+                <div class="grid grid-cols-2 gap-4 relative z-10">
+                    <img src="https://i.pinimg.com/originals/6d/b6/73/6db6738cc7e1bf2ea139d97804294617.jpg" class="sticker-img bg-blue-100" alt="Cute Sticker">
+                    <!-- Anime Vibe (Maybe swap for a sword/mask image if user updates, but keeping position) -->
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLC5de4nPNJsVWQo3MQyxKJmiH6zFIQzjImQ&s" class="sticker-img bg-red-100" alt="Anime Vibe">
+                    <img src="https://upload-os-bbs.hoyolab.com/upload/2023/09/02/360374682/20ade5ea9ce2f8a0453587348d3541d4_2153532981055111591.jpg?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" class="sticker-img bg-blue-50" alt="Kaomoji sticker">
+                    
+                    <div class="bg-blue-100 rounded-xl flex items-center justify-center border-4 border-white shadow-md sticker-img">
+                        <span class="text-blue-500 font-bold text-center leading-tight p-2 text-sm italic">
+                            Combat <br> Ready <br> ⚔️
                         </span>
                     </div>
                 </div>
-                <p class="text-center text-pink-300 font-bold italic text-xs tracking-widest uppercase">
-                    ˗ˏˋ because being smart is hot ˎˊ˗
-                </p>
+                <div class="relative z-10 text-center">
+                     <span class="bg-blue-50 text-blue-500 px-4 py-1.5 rounded-lg text-xs font-black tracking-widest uppercase border-2 border-blue-200">
+                        ✦ Snezhnaya's Finest ✦
+                    </span>
+                </div>
             </div>
 
             <!-- Upload Card -->
-            <div id="dropzone" class="glass-card p-12 border-4 border-dashed border-pink-200 hover:border-pink-400 transition-all cursor-pointer group flex flex-col items-center justify-center text-center overflow-hidden">
+            <div id="dropzone" class="kawaii-card p-8 transition-all cursor-pointer group flex flex-col items-center justify-center text-center overflow-hidden hover:scale-[1.02] active:scale-[0.98] border-dashed">
+                <!-- Custom Dashed Area -->
+                <div class="absolute inset-6 dashed-border rounded-[1.2rem] opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
                 <input type="file" id="fileInput" class="hidden" accept="image/*">
-                <div class="w-24 h-24 bg-gradient-to-tr from-pink-200 to-purple-200 rounded-[2.5rem] flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-12 transition-all shadow-inner">
-                    <i data-lucide="wand-2" class="w-12 h-12 text-white"></i>
-                </div>
-                <h3 class="text-pink-600 font-black text-2xl italic uppercase">Prove 'em wrong! (˶˃ ᵕ ˂˶) .ᐟ</h3>
-                <p class="text-pink-400 text-[10px] font-black mt-4 tracking-[0.3em] uppercase">DROP YOUR SCREENSHOT TO SLAY ✧</p>
                 
-                <div id="previewContainer" class="hidden mt-8 w-full max-w-[220px] rounded-3xl overflow-hidden border-8 border-white shadow-2xl relative animate-fade-in z-20">
+                <div class="relative z-10">
+                    <div class="w-24 h-24 bg-gradient-to-tr from-blue-400 to-blue-600 rounded-[1.5rem] flex items-center justify-center mb-6 mx-auto group-hover:rotate-6 transition-transform shadow-[6px_6px_0px_0px_rgba(30,58,138,0.3)] border-4 border-white">
+                        <i data-lucide="upload-cloud" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-blue-600 font-black text-2xl uppercase tracking-tight">Deployment</h3>
+                    <p class="text-blue-400 text-[10px] font-bold mt-2 tracking-[0.2em] uppercase bg-white inline-block px-3 py-1 rounded border border-blue-100">Drop Target Here ✦</p>
+                </div>
+                
+                <div id="previewContainer" class="hidden mt-6 w-full max-w-[200px] rounded-xl overflow-hidden border-[6px] border-white shadow-xl relative animate-fade-in z-20 -rotate-2">
                     <img id="imagePreview" class="w-full h-auto" src="" alt="Preview">
-                    <button id="removeBtn" class="absolute top-2 right-2 bg-white/90 rounded-full p-2 text-red-400 hover:scale-110 transition-transform shadow-md">
-                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    <button id="removeBtn" class="absolute top-2 right-2 bg-red-500 text-white rounded-lg p-1.5 hover:bg-red-600 hover:scale-110 transition-all border-2 border-white shadow-sm">
+                        <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Resolution Card -->
-            <div id="resultCard" class="glass-card md:col-span-2 min-h-[600px] flex flex-col overflow-hidden">
-                <div class="px-12 py-8 border-b border-pink-100 bg-white/40 flex items-center justify-between backdrop-blur-md">
-                    <div class="flex items-center gap-4">
-                        <div class="w-4 h-4 rounded-full bg-pink-400 animate-ping"></div>
-                        <h2 class="text-sm font-black text-pink-600 uppercase tracking-[0.5em]">The Slay Era Resolution ◌ ✩ ☁︎</h2>
+            <div id="resultCard" class="kawaii-card md:col-span-2 min-h-[600px] flex flex-col overflow-hidden">
+                <div class="px-8 py-6 border-b-4 border-blue-100 bg-blue-50/50 flex flex-wrap items-center justify-between gap-4 relative z-20 rounded-t-[1.3rem]">
+                    <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border-2 border-blue-100 shadow-sm">
+                        <div class="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
+                        <h2 class="text-sm font-black text-blue-600 uppercase tracking-widest">Foul Legacy Mode ⚡</h2>
                     </div>
-                    <div id="statusIndicator" class="hidden flex items-center gap-3 bg-pink-100/50 px-6 py-2 rounded-full border-2 border-white shadow-sm">
-                        <div class="loader-pink"></div>
-                        <span class="text-[10px] font-black text-pink-500 uppercase tracking-widest italic">Calculating Realness... (っ´ω`)ﾉ</span>
+                    
+                    <div id="statusIndicator" class="hidden flex items-center gap-3 bg-white px-4 py-2 rounded-lg border-2 border-blue-100 shadow-sm">
+                        <div class="loader-blue"></div>
+                        <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Analyzing Tides... ✦</span>
                     </div>
-                    <button id="copyBtn" class="hidden text-[10px] bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 bg-[length:200%_auto] hover:bg-right text-white px-8 py-3 rounded-full font-black tracking-widest transition-all active:scale-95 shadow-xl flex items-center gap-3">
-                        <i data-lucide="copy" class="w-4 h-4"></i>
-                        COPY MATH MAGIC
+
+                    <button id="copyBtn" class="hidden text-xs shiny-btn px-6 py-2 rounded-lg font-bold tracking-widest transition-all flex items-center gap-2">
+                        <i data-lucide="clipboard-copy" class="w-4 h-4"></i>
+                        COPY INTEL
                     </button>
                 </div>
                 
-                <div id="outputContent" class="p-12 md:p-20 flex-grow text-gray-800 overflow-y-auto">
-                    <div id="placeholder" class="flex flex-col items-center justify-center h-full space-y-10 text-center">
-                        <div class="relative">
-                            <div class="w-32 h-32 bg-white rounded-[3rem] flex items-center justify-center border-8 border-pink-50 shadow-2xl floating">
-                                <i data-lucide="crown" class="text-pink-400 w-16 h-16"></i>
+                <div id="outputContent" class="p-8 md:p-12 flex-grow text-gray-700 overflow-y-auto relative z-10 bg-white">
+                    <div id="placeholder" class="flex flex-col items-center justify-center h-full space-y-8 text-center opacity-60">
+                        <div class="relative group cursor-help">
+                            <div class="w-32 h-32 bg-blue-50 rounded-[2rem] flex items-center justify-center border-4 border-dashed border-blue-200 floating">
+                                <i data-lucide="waves" class="text-blue-400 w-12 h-12"></i>
                             </div>
-                            <div class="absolute -top-4 -right-4 bg-purple-400 text-white p-2 rounded-full border-4 border-white rotate-12">
-                                <i data-lucide="star" class="w-6 h-6"></i>
+                            <div class="absolute -top-2 -right-2 bg-red-500 text-white p-2 rounded-lg border-2 border-white rotate-12 shadow-sm">
+                                <i data-lucide="swords" class="w-5 h-5"></i>
                             </div>
                         </div>
-                        <div class="space-y-4">
-                            <p class="text-pink-400 font-black italic tracking-widest uppercase text-xs">
-                                Ready to outsmart the mediocre? <br>
-                                (づ｡◕‿‿◕｡)づ
-                            </p>
-                            <p class="text-gray-400 text-[10px] font-medium tracking-tighter uppercase italic opacity-70">
-                                drop the math, keep the sparkle
+                        <div class="space-y-2">
+                            <p class="text-blue-400 font-black italic tracking-widest uppercase text-xs bg-blue-50 px-4 py-2 rounded-lg inline-block">
+                                Waiting for battle coordinates... <br> ✦ ✧ ✦
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <footer class="text-center py-4">
+             <p class="text-[10px] text-blue-300 font-bold uppercase tracking-[0.3em]">Fatui Approved ✦</p>
+        </footer>
     </div>
 
     <script>
         lucide.createIcons();
         const apiKey = "Api_Key";
         
-        // Audio Effects (Cute & High Pitch)
-        const playSound = (freq = 880, type = 'sine') => {
+        // Audio Effects (Crisper, "Hydro" sound vibe)
+        const playSound = (freq = 600, type = 'sine') => {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = type;
             osc.frequency.setValueAtTime(freq, ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(freq * 1.5, ctx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.1, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+            osc.frequency.exponentialRampToValueAtTime(freq * 0.5, ctx.currentTime + 0.15); // Drop pitch like water drop
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start();
             osc.stop(ctx.currentTime + 0.2);
         };
 
-        // Glitter Canvas Logic
+        // Glitter Canvas Logic - Blue/White Particles
         const canvas = document.getElementById('glitter-canvas');
         const gctx = canvas.getContext('2d');
         let particles = [];
@@ -240,7 +327,10 @@
                 this.size = Math.random() * 3 + 1;
                 this.speedX = Math.random() * 2 - 1;
                 this.speedY = Math.random() * 2 - 1;
-                this.color = `hsl(${Math.random() * 40 + 330}, 100%, 80%)`;
+                // Blue/Aqua/White hues
+                const hues = [210, 200, 190]; 
+                const hue = hues[Math.floor(Math.random() * hues.length)];
+                this.color = `hsl(${hue}, 100%, 70%)`;
                 this.life = 1;
             }
             update() {
@@ -252,13 +342,18 @@
                 gctx.fillStyle = this.color;
                 gctx.globalAlpha = this.life;
                 gctx.beginPath();
-                gctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // Diamond shape for "Primogem/Star" feel
+                gctx.moveTo(this.x, this.y - this.size);
+                gctx.lineTo(this.x + this.size, this.y);
+                gctx.lineTo(this.x, this.y + this.size);
+                gctx.lineTo(this.x - this.size, this.y);
+                gctx.closePath();
                 gctx.fill();
             }
         }
 
         window.addEventListener('mousemove', (e) => {
-            for(let i=0; i<2; i++) particles.push(new Particle(e.x, e.y));
+            if(Math.random() > 0.3) particles.push(new Particle(e.x, e.y));
         });
 
         function animateGlitter() {
@@ -283,7 +378,7 @@
 
         dropzone.onclick = (e) => { 
             if(e.target === fileInput || e.target.closest('#removeBtn')) return; 
-            playSound(1200);
+            playSound(800);
             fileInput.click(); 
         };
         
@@ -294,10 +389,10 @@
         
         removeBtn.onclick = (e) => {
             e.stopPropagation();
-            playSound(440, 'square');
+            playSound(300, 'square');
             previewContainer.classList.add('hidden');
             fileInput.value = "";
-            outputContent.innerHTML = `<div id="placeholder" class="flex flex-col items-center justify-center h-full space-y-10 text-center"><div class="relative"><div class="w-32 h-32 bg-white rounded-[3rem] flex items-center justify-center border-8 border-pink-50 shadow-2xl floating"><i data-lucide="crown" class="text-pink-400 w-16 h-16"></i></div></div><p class="text-pink-400 font-black italic tracking-widest uppercase text-xs">Ready to outsmart the mediocre? <br> (づ｡◕‿‿◕｡)づ</p></div>`;
+            outputContent.innerHTML = `<div id="placeholder" class="flex flex-col items-center justify-center h-full space-y-8 text-center opacity-60"><div class="relative group cursor-help"><div class="w-32 h-32 bg-blue-50 rounded-[2rem] flex items-center justify-center border-4 border-dashed border-blue-200 floating"><i data-lucide="waves" class="text-blue-400 w-12 h-12"></i></div><div class="absolute -top-2 -right-2 bg-red-500 text-white p-2 rounded-lg border-2 border-white rotate-12 shadow-sm"><i data-lucide="swords" class="w-5 h-5"></i></div></div><div class="space-y-2"><p class="text-blue-400 font-black italic tracking-widest uppercase text-xs bg-blue-50 px-4 py-2 rounded-lg inline-block">Waiting for battle coordinates... <br> ✦ ✧ ✦</p></div></div>`;
             lucide.createIcons();
             copyBtn.classList.add('hidden');
         };
@@ -313,36 +408,38 @@
         }
 
         async function showProcessingSteps() {
-            playSound(1500, 'triangle');
+            playSound(600, 'triangle');
+            // Reverted to "Slay/Bestie" vibes but with symbols (No emojis)
             const steps = [
-                "Scanning your screenshot for math vibes... ( ʘ ‿ ʘ )",
-                "Analyzing coefficients like a boss... slay 💅",
-                "Transforming to depressed cubic form... (mechanic era)",
-                "Calculating Discriminant Δ (serving absolute roots)... ᶻ 𝗓 𐰁",
-                "Invoking the ghosts of Tartaglia & Viète... (∩^o^)⊃━☆",
-                "Adding glitter and logic to the final result ✨"
+                "Scanning for math vibes... ✦",
+                "Coefficients acquired (slay) ⚔️",
+                "Transforming form... 💧",
+                "Calculating Δ (serving absolute roots)... ✧",
+                "Invoking Viète & Tartaglia (not the harbinger)... ⚔️",
+                "Ready to destroy this equation... ✦"
             ];
             
             outputContent.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-full space-y-16 py-10">
+                <div class="flex flex-col items-center justify-center h-full space-y-12 py-10">
                     <div class="relative">
-                        <img src="https://i.makeagif.com/media/4-06-2021/lrtunl.gif" class="w-80 rounded-[4rem] shadow-2xl border-[12px] border-white ring-8 ring-pink-50" alt="Slaying">
-                        <div class="absolute -bottom-6 -right-6 bg-pink-500 text-white px-4 py-2 rounded-2xl font-black italic text-xs shadow-xl animate-bounce">
-                            MATHING HARD! ᕙ(  •̀ ᗜ •́  )ᕗ
+                        <img src="https://i.makeagif.com/media/4-06-2021/lrtunl.gif" class="w-64 rounded-[2rem] shadow-[8px_8px_0_0_#3b82f6] border-4 border-white" alt="Slaying">
+                        <div class="absolute -bottom-4 -right-4 bg-red-500 text-white px-4 py-2 rounded-lg font-black text-xs shadow-md border-2 border-white animate-bounce uppercase tracking-widest">
+                            MATHING HARD! ⚔️
                         </div>
                     </div>
-                    <div id="step-console" class="w-full max-w-sm bg-white/60 backdrop-blur-lg p-8 rounded-[3rem] border-2 border-pink-100 text-pink-600 shadow-2xl space-y-3">
+                    <div id="step-console" class="w-full max-w-sm bg-blue-50 p-6 rounded-xl border-2 border-dashed border-blue-200 text-blue-600 space-y-2">
                     </div>
                 </div>
             `;
             
             const consoleEl = document.getElementById('step-console');
             for (let step of steps) {
-                playSound(2000 + (Math.random() * 500));
+                playSound(800 + (Math.random() * 200));
                 const p = document.createElement('p');
-                p.className = "text-[11px] font-black uppercase tracking-tighter flex items-center gap-2";
-                p.innerHTML = `<span class="text-pink-300">★</span> ${step}`;
+                p.className = "text-[11px] font-bold uppercase tracking-tight flex items-center gap-2";
+                p.innerHTML = `<i data-lucide="sparkle" class="w-3 h-3 text-blue-400 fill-current"></i> ${step}`;
                 consoleEl.appendChild(p);
+                lucide.createIcons();
                 await new Promise(r => setTimeout(r, 800));
             }
         }
@@ -351,12 +448,18 @@
             statusIndicator.classList.remove('hidden');
             const processingPromise = showProcessingSteps();
 
-            const prompt = `Solve the cubic equation using Viète/Tartaglia. 
-            Respond as a sassy, genius "POC math bestie" in English. You are here to empower and be cutesy but extremely competent. 
-            Tone: Slay, cunty, realness. Subtext: Intelligence is the ultimate feminine power.
+            // REVERTED PERSONA: Sassy Math Bestie + Tartaglia Joke + No Emojis
+            const prompt = `Solve the cubic equation using Viète/Tartaglia method. 
+            PERSONA: You are a sassy, genius "math bestie". You are here to empower and be extremely competent and sharp.
+            Tone: Slay, cunty, realness. Subtext: Intelligence is the ultimate power.
+            
+            INSTRUCTIONS: 
+            1. The method is called Tartaglia. Make a brief, witty joke about how it shares the name with that ginger guy from Genshin Impact (Childe), but clarify that YOU are the real boss here. Do NOT roleplay as Childe.
+            2. Solve the math step-by-step with high competence.
+            3. NO EMOJIS or KAOMOJIS. Use aesthetic symbols like ✦, ✧, ⚔️, 💧, ♡ instead.
+            
             Format: Use LaTeX ($$ for blocks, $ for inline). 
-            Kaomojis: Use complex ones like (づ｡◕‿‿◕｡)づ, (∩^o^)⊃━☆, (˶˃ ᵕ ˂˶) throughout.
-            Headers: Use ♡♡ for steps.`;
+            Headers: Use ✦✦ for steps.`;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
@@ -377,14 +480,14 @@
                     playSound(1000, 'sine');
                 }
             } catch (err) {
-                outputContent.innerHTML = `<div class="text-center space-y-4"><p class="text-red-400 font-black text-xl uppercase italic">The math isn't mathing! (╯°□°）╯︵ ┻━┻</p><p class="text-pink-300 font-bold">Try again, queen!</p></div>`;
+                outputContent.innerHTML = `<div class="text-center space-y-4"><p class="text-red-500 font-black text-xl uppercase">The math isn't mathing! (╯°□°）╯︵ ┻━┻</p><p class="text-blue-400 font-bold">Try again, bestie!</p></div>`;
             }
             statusIndicator.classList.add('hidden');
         }
 
         function renderSolution(markdown) {
             const htmlContent = marked.parse(markdown);
-            outputContent.innerHTML = `<div class="latex-container prose prose-pink max-w-none text-gray-800 animate-in fade-in slide-in-from-bottom-12 duration-1000">${htmlContent}</div>`;
+            outputContent.innerHTML = `<div class="latex-container prose prose-blue max-w-none text-gray-700 animate-in fade-in slide-in-from-bottom-8 duration-700">${htmlContent}</div>`;
             copyBtn.classList.remove('hidden');
             
             renderMathInElement(outputContent, {
@@ -397,7 +500,7 @@
         }
 
         copyBtn.onclick = () => {
-            playSound(1800);
+            playSound(1200);
             const el = document.createElement('textarea');
             el.value = currentRawSolution;
             document.body.appendChild(el);
@@ -405,7 +508,7 @@
             document.execCommand('copy');
             document.body.removeChild(el);
             const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = `<span>COPIED! (˶˃ ᵕ ˂˶) ✨</span>`;
+            copyBtn.innerHTML = `<span>COPIED! ✦</span>`;
             setTimeout(() => copyBtn.innerHTML = originalText, 2000);
         };
     </script>
