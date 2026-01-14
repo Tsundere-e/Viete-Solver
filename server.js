@@ -2,7 +2,10 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
 import solveHandler from './api/solve.js';
+
+config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
